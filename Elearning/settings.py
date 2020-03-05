@@ -35,7 +35,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'User'
+    'User',
+    'User.templatetags',
+    'social_django',
+    'Tutor'
 ]
 
 MIDDLEWARE = [
@@ -46,7 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'User.Middleware.login_middleware.Login'
+    'User.Middleware.login_middleware.Login',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'Elearning.urls'
@@ -63,10 +67,21 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',  # <--
+                'social_django.context_processors.login_redirect',  # <--
             ],
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'User.backend.CustomUserAuth'
+)
 
 WSGI_APPLICATION = 'Elearning.wsgi.application'
 
@@ -128,13 +143,24 @@ MEDIA_URL = '/Media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'Media')
 
 AUTH_USER_MODEL = 'User.Users'
-AUTHENTICATION_BACKENDS = ('User.backend.CustomUserAuth',)
 
-LOGIN_REDIRECT_URL = '/user/home'
+LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = (
     'user',
     'tutor'
 )
 LOGIN_EXEMPT_URLS = (
-    r'^/user/logout/$',
+    r'^/logout/$',
+    r'^/signup/$',
+    r'^/login/$',
+    r'^tutor/login$'
 )
+
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '96163122008-0v2d98a0s5gis5bm21ffaaavahkajmpj.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'bPcvd5WDIjck4qlfBxgsb_x2'
+
+GOOGLE_LOGIN_URL = '/auth/login/google-oauth2/'
+LOGOUT_REDIRECT_URL = '/'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'

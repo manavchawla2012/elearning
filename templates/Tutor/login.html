@@ -1,0 +1,36 @@
+{% extends "Layout/application.html" %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+{% block content %}
+    <div class="login-content" style="height: {% if request.path == '/signup' %} 800px {% endif %}">
+        <div class="header" style="width: 100%">
+            <a class="col-md-12 right-border not-active" style="background-color: #ffffff; padding: 0"><span><h2>Tutor Log In</h2></span></a>
+        </div>
+        <div class="clearfix"></div>
+        <div class="head-content">
+            <div class="heading">Sign in to your account</div>
+
+            <form href="/tutor/login" method="post">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+
+                <div class="agreement">By clicking Sign In, you agree to our <a>Terms of Use</a> and our <a>Privacy
+                    Policy.</a></div>
+                <input type="submit" value="Sign In">
+            </form>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == "error" %}alert-danger{% else %}alert-success{% endif %}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            <a href="">Forget your Password?</a>
+        </div>
+    </div>
+{% endblock %}
+{% block footer %}
+
+{% endblock %}

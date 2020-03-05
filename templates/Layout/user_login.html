@@ -1,0 +1,23 @@
+{% extends "Layout/application.html" %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+{% block content %}
+    <div class="login-content" style="height: {% if request.path == '/signup' %} 800px {% endif %}">
+        <div class="header" style="width: 100%">
+            <a class="{% if request.path == '/signup' %}active {% else %}not-active{% endif %} col-md-6 right-border"
+               href="/signup"><span>SIGN UP</span></a>
+            <a class="{% if request.path == '/login' %}active {% else %}not-active{% endif %} col-md-6 left-border"
+               href="/login"><span>SIGN IN</span></a>
+        </div>
+        <div class="clearfix"></div>
+        {% block login_content %}
+        {% endblock %}
+
+    </div>
+{% endblock %}
+{% block footer %}
+
+{% endblock %}

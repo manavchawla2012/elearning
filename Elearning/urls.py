@@ -19,13 +19,14 @@ from django.conf.urls.static import static
 from django.conf.urls import handler404
 from . import views
 
-
-
 urlpatterns = [
-    path('user/', include("User.urls")),
-    path('tutor/', include("User.urls")),
-    path('', views.home_page),
-    path('logout', views.logout)
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path('user/', include("User.urls")),
+                  path('tutor/', include("Tutor.urls")),
+                  path('', views.home_page),
+                  path('logout', views.logout),
+                  path('oauth', include('social_django.urls', namespace='social')),
+                  path('login', views.login),
+                  path('signup', views.signup),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'User.views.handle404'

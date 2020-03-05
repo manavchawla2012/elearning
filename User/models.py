@@ -8,13 +8,13 @@ import hashlib
 
 # Create your models here.
 class UserManager(BaseUserManager):
-    def create_user(self, username=None, password=None, first_name=None, gender=None,
-                    phone=None, email=None, state=None, country=None, last_name=None, role_id=None):
+    def create_user(self, username, password, first_name, gender,
+                    phone, email, last_name, role_id, state=None, country=None):
         now = datetime.now()
         encrypt_password = hashlib.sha1(password.encode("utf-8")).hexdigest()
         user = self.model(username=username, password=encrypt_password, first_name=first_name, gender=gender,
                           phone=phone, email=email, state=state, country=country, last_name=last_name, role_id=role_id,
-                          created_at=now, updated_At=now)
+                          created_at=now, updated_at=now)
         user.save()
         return user
 
@@ -35,7 +35,7 @@ class Users(AbstractBaseUser):
     username = models.CharField(unique=True, max_length=100)
     password = models.CharField(max_length=50)
     first_name = models.CharField(max_length=40)
-    gender = models.IntegerField(blank=True, null=True)
+    gender = models.CharField(blank=True, null=True, max_length=10)
     phone = models.BigIntegerField(blank=True, null=True)
     email = models.CharField(max_length=40, blank=True, null=True)
     state = models.CharField(max_length=30, blank=True, null=True)

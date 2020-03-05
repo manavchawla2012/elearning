@@ -9,7 +9,12 @@ class CustomUserAuth(BaseBackend):
     def authenticate(self, request, username=None, password=None):
         try:
             encrypt_password = hashlib.sha1(password.encode("utf-8")).hexdigest()
-            user = Users.objects.get(username=username, password=encrypt_password)
+            if '@' in username:
+                kwargs = {'email': username}
+            else:
+                kwargs = {'username': username}
+            kwargs["password"] = encrypt_password
+            user = Users.objects.get(**kwargs)
             if user:
                 return user
             else:
