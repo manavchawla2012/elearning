@@ -1,0 +1,67 @@
+{% extends "Layout/user_login.html" %}
+{% block login_content %}
+    <div class="head-content">
+        <div class="heading">Create an Account</div>
+        <div class="head-explain">Build skills for today, tomorrow, and beyond. Education to future-proof your
+            career.
+        </div>
+        <div>
+            <div class="col-md-6 social-btn"><a href="#" class="fb btn">
+                <i class="fa fa-facebook fa-fw"></i> Sign Up with Facebook
+            </a></div>
+            <div class="col-md-6 social-btn"><a href="{% url 'social:begin' 'google-oauth2' %}" class="google btn">
+                <i class="fa fa-google fa-fw"></i> Sign Up with Google
+            </a></div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="divider"><span></span><span>or</span><span></span></div>
+        <form method="post" href="/signup">
+            {% csrf_token %}
+
+            <div class="col-md-6 form-content">
+                <div class="error">{{ user_form.firstname.errors }}</div>
+                <input type="text" name="firstname" placeholder="First Name"
+                       {% if user_form.firstname.value %}value="{{ user_form.firstname.value }}"{% endif %}>
+            </div>
+
+            <div class="col-md-6 form-content">
+                <div class="error">{{ user_form.lastname.errors }}</div>
+                <input type="text" name="lastname" placeholder="Last Name"
+                       {% if user_form.lastname.value %}value="{{ user_form.lastname.value }}"{% endif %}>
+            </div>
+
+            <div class="col-md-12 form-content">
+                <div class="error">{{ user_form.lastname.errors }}</div>
+                <input type="email" name="email" placeholder="Email Id" class="col-md-12"
+                       {% if user_form.email.value %}value="{{ user_form.email.value }}"{% endif %}>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-6 form-content">
+                <div class="error">{{ user_form.username.errors }}</div>
+                <input type="text" name="username" placeholder="User name"
+                       {% if user_form.username.value %}value="{{ user_form.username.value }}"{% endif %}>
+            </div>
+            <div class="col-md-6 form-content">
+                <div class="error">{{ user_form.gender.errors }}</div>
+                <select name="gender">
+                    <option value="">Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Others</option>
+                </select>
+            </div>
+            <div class="col-md-12 form-content">
+            <div class="error">{{ user_form.mobile.errors }}</div>
+                <input type="tel" name="mobile" placeholder="Mobile Number" class="col-md-12"
+                       {% if user_form.mobile.value %}value="{{ user_form.mobile.value }}"{% endif %}>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-6 form-content"><div class="error">{{ user_form.password1.errors }}</div><input type="password" name="password1" placeholder="Password"></div>
+            <div class="col-md-6"><input type="password" name="password2" placeholder="Re-Password"></div>
+            <div class="agreement col-md-12" style="margin: 10px 0">By clicking Signing Up, you agree to our <a>Terms of
+                Use</a> and our <a>Privacy
+                Policy.</a></div>
+            <input type="submit" value="Sign Up">
+        </form>
+    </div>
+{% endblock %}

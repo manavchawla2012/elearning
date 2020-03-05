@@ -1,0 +1,5 @@
+.env
+.idea/
+*__pycache__
+Login_v4.tar.xz
+Login_v4

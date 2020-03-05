@@ -1,0 +1,41 @@
+{% extends "Layout/user_login.html" %}
+
+{% block login_content %}
+    <div class="head-content">
+        <div class="heading">Sign in to your account</div>
+        <div class="head-explain">Build skills for today, tomorrow, and beyond. Education to future-proof your
+            career.
+        </div>
+        <div>
+            <div class="col-md-6 social-btn"><a href="#" class="fb btn">
+                <i class="fa fa-facebook fa-fw"></i> Sign In with Facebook
+            </a></div>
+            <div class="col-md-6 social-btn"><a href="{% url 'social:begin' 'google-oauth2' %}" class="google btn">
+                <i class="fa fa-google fa-fw"></i> Sign In with Google
+            </a></div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="divider"><span></span><span>or</span><span></span></div>
+        <form href="/login" method="post">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+
+            <div class="agreement">By clicking Sign In, you agree to our <a>Terms of Use</a> and our <a>Privacy
+                Policy.</a></div>
+            <input type="submit" value="Sign In">
+        </form>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags == "error" %}alert-danger{% else %}alert-success{% endif %}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        <a href="">Forget your Password?</a>
+        <div class="col-md-12" style="font-size: 30px; margin-top: 10px">
+
+            <a href="/tutor/login"><i class="fa fa-book"></i>Are you a Tutor?</a>
+        </div>
+    </div>
+{% endblock %}
+
+

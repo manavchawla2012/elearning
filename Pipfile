@@ -7,6 +7,11 @@ verify_ssl = true
 
 [packages]
 django = "==3.0.2"
+psycopg2-binary = "*"
+social-auth-app-django = "*"
+python-social-auth = "*"
+django-phonenumber-field = "*"
+phonenumbers = "*"
 
 [requires]
 python_version = "3.7"

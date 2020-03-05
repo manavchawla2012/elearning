@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Test Website</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    {% block css %} {% endblock %}
+    {% load static %}
+    {% load application_tag %}
+    <link rel="stylesheet" href="{% static 'css/application.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="wrapper">
+    {% if not request.path == "/user/test_session" %}
+        <nav class="navbar navbar-default" style="">
+            <div class="container-fluid">
+                <div class="navbar-header" style="margin-left: 20px; margin-right: 80px">
+                    <a class="navbar-brand" href="/"><b>Logo</b></a>
+                </div>
+
+                <ul class="nav navbar-nav">
+
+                </ul>
+                {% if not request.user.is_authenticated %}
+                    {% if not request.path == "/tutor/login" %}
+                        <ul class="nav navbar-nav navbar-right">
+                            <li style="cursor: pointer"><a href="/signup"><span
+                                    class="glyphicon glyphicon-user"></span>Sign Up</a></li>
+                            <li class=""><a href="/login" class=""><span class="glyphicon glyphicon-log-in"></span>
+                                Login</a></li>
+                        </ul>
+                    {% else %}
+
+                    {% endif %}
+                {% else %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li style="cursor: pointer"><a><span class=""></span>My Courses</a></li>
+                        <li style="cursor: pointer"><a><span class="glyphicon glyphicon-bell"></span></a></li>
+                        <li style="cursor: pointer" class="dropdown">
+                            <span class="user-name">
+                                <a class="dropdown-toggle " data-toggle="dropdown">
+                                    {% get_name request.user %}
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdown-head"><a>Welcome {% get_full_name request.user %}</a></li>
+                                        <li><a>Link1</a></li>
+                                        <li><a>Link1</a></li>
+                                        <li><a>Link1</a></li>
+                                        <li><a>Link1</a></li>
+                                        <li class="drop-footer"><a href="/logout">Log Out</a></li>
+                                    </ul>
+                                </a>
+                            </span>
+
+                        </li>
+                    </ul>
+
+                {% endif %}
+                {% block rightNav %}
+
+                {% endblock %}
+            </div>
+        </nav>
+    {% endif %}
+    <div>
+
+    </div>
+    <div class="main-content">
+        {% block content %} {% endblock %}
+    </div>
+
+    <div class="footer" style="">
+        <div class="container-fluid cont">
+            <div class="logo col-md-1" style="text-align: center; margin-left: 50px"><b>Logo</b></div>
+            <div class="col-md-10">
+                <div class="col-md-1 data">Privacy</div>
+                <div class="col-md-1 data">Terms</div>
+                <div class="col-md-1 data">Help</div>
+                {% block footer %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+{% block javascript %}
+{% endblock %}

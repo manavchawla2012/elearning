@@ -1,0 +1,29 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+
+<div id="sidebar" class="sidebar sidebar-close">
+    <span class="side-header"></span>
+    <a href="/login" class="{% if request.path == '/login' %}link-active{% endif %}"><i class="glyphicon glyphicon-th-list"></i> User Login</a>
+    <a href="/login" class="{% if request.path == '/login' %}link-active{% endif %}"><i class="glyphicon glyphicon-credit-card"></i> Tutor Login</a>
+</div>
+
+<script type="text/javascript">
+    function sidebarToggle() {
+        var sidebar = $("#sidebar");
+        let main_content = $(".main-content");
+      if (sidebar.hasClass('sidebar-close')) {
+            $(sidebar).addClass('sidebar-open');
+            $(sidebar).removeClass('sidebar-close');
+            main_content.parent().css({position: 'relative'});
+            main_content.css({left: 300, position: 'absolute'});
+        } else {
+            $(sidebar).addClass('sidebar-close');
+            $(sidebar).removeClass('sidebar-open');
+            main_content.css({left: 0})
+        }
+        console.log(sidebar.width());
+
+    }
+
+
+</script>

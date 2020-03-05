@@ -1,0 +1,189 @@
+.login-content {
+    width: 600px;
+    height: 700px;
+    border: 1px solid #eaeaea;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    margin: 50px auto auto;
+}
+
+.login-content .header {
+    text-align: center;
+    font-size: 15px;
+}
+
+.login-content .header a {
+    background-color: #f3f3f3ad;
+    border-bottom: 1px solid #d2d2d2;
+    padding: 15px 0;
+    text-decoration: none;
+}
+
+.login-content .header a span {
+    color: black;
+}
+
+.login-content .header .active {
+    background-color: #ffffff;
+    border-bottom: 0 !important;
+}
+
+.login-content .header .active a {
+    background-color: transparent !important;
+}
+
+.not-active.left-border {
+    border-left: 1px solid #d2d2d2;
+}
+
+.not-active.right-border {
+    border-right: 1px solid #d2d2d2;
+}
+
+.login-content .header .not-active:hover {
+    background-color: #ffffff;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.head-content {
+    padding: 30px 40px;
+    text-align: center;
+}
+
+.head-content .heading {
+    font-size: 30px;
+}
+
+.head-content .head-explain {
+    padding: 10px 20%;
+}
+
+.head-content .social-btn {
+
+}
+
+select,
+input,
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    margin: 5px 0;
+    opacity: 0.85;
+    display: inline-block;
+    font-size: 17px;
+    line-height: 20px;
+    text-decoration: none; /* remove underline from anchors */
+}
+
+select,
+input {
+    border: 1px solid #f5f5f5;
+    color: black;
+}
+
+select {
+    background-color: white;
+    opacity: 0.85;
+}
+
+select:hover,
+input:hover {
+    opacity: 1;
+    color: black !important;
+}
+
+.fb {
+    background-color: #3B5998;
+    color: white;
+}
+
+.twitter {
+    background-color: #55ACEE;
+    color: white;
+}
+
+.google {
+    background-color: #dd4b39;
+    color: white;
+}
+
+
+.btn:hover {
+    opacity: 1;
+    color: white;
+}
+
+.divider { /* minor cosmetics */
+    display: table;
+    font-size: 24px;
+    text-align: center;
+    width: 75%; /* divider width */
+    margin: 20px auto; /* spacing above/below */
+}
+
+.divider span {
+    display: table-cell;
+    position: relative;
+}
+
+.divider span:first-child, .divider span:last-child {
+    width: 50%;
+    top: 13px; /* adjust vertical align */
+    -moz-background-size: 100% 2px; /* line width */
+    background-size: 100% 2px; /* line width */
+    background-position: 0 0, 0 100%;
+    background-repeat: no-repeat;
+}
+
+.divider span:first-child { /* color changes in here */
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(transparent), to(#000));
+    background-image: -webkit-linear-gradient(180deg, transparent, #000);
+    background-image: -moz-linear-gradient(180deg, transparent, #000);
+    background-image: -o-linear-gradient(180deg, transparent, #000);
+    background-image: linear-gradient(90deg, transparent, #000);
+}
+
+.divider span:nth-child(2) {
+    color: #000;
+    padding: 1px 5px;
+    width: auto;
+    white-space: nowrap;
+}
+
+.divider span:last-child { /* color changes in here */
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#000), to(transparent));
+    background-image: -webkit-linear-gradient(180deg, #000, transparent);
+    background-image: -moz-linear-gradient(180deg, #000, transparent);
+    background-image: -o-linear-gradient(180deg, #000, transparent);
+    background-image: linear-gradient(90deg, #000, transparent);
+}
+
+input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+.agreement {
+    text-align: left;
+    margin: 20px 0;
+}
+
+.form-content {
+    height: 60px;
+}
+
+.form-content .error {
+    height: 0px;
+    text-align: left;
+}
+
+.form-content .error ul {
+    margin-bottom: 0;
+    padding-left: 0;
+}
