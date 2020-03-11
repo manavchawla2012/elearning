@@ -21,7 +21,6 @@ Here we are creating a elearing website.
 * 1.3) Url Shortner
 
 ## Url Shortner
-* Create a user by signing up.
 * Create a url with uri by clicking Filters
 * Click button ``Get Short Url``
 * You will get a short url. Which will be valid for 20 seconds.
