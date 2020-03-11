@@ -17,5 +17,10 @@ def logout(request):
         return redirect("/user/login")
 
 
+def device(request, device_id):
+    if request.method == "GET":
+        return render(request, "")
+
+
 def handle404(request, exception):
     return render(request, 'Errors/404.html')

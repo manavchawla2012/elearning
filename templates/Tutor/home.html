@@ -1,4 +1,67 @@
 {% extends 'Layout/application.html' %}
+{% block css %}
+    <style>
+        .filter {
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
 {% block content %}
-    Manav
+    <a class="filter" data-id="filter1">Filter1</a>
+    <a class="filter" data-id="filter2">Filter2</a>
+    <a class="filter" data-id="filter3">Filter3</a>
+    <div>
+        {{ request.GET }}
+    </div>
+    <div class="btn btn-primary" id="short_url">Get Short URL</div>
+    <div class="text text-success" id="short_url_text"></div>
+{% endblock %}
+{% block javascript %}
+    <script type="text/javascript">
+        function set_parameters(key, value, url) {
+            url = new URL(url);
+            path = url.pathname;
+            origin = url.origin;
+            if (path !== "/") {
+                full_path = origin + path;
+            } else {
+                full_path = origin;
+            }
+            parameters = new URLSearchParams(url.search.slice(1));
+            parameters.set(key, value);
+            new_path = full_path + "?" + parameters.toString();
+            return new_path;
+        }
+
+        $(".filter").on("click", function () {
+            var value = $(this).data("id");
+            var filter = $(this).text();
+            var path = "";
+            url = new URL(window.location.href);
+            new_url = set_parameters(value, value, url);
+            window.location.href = new_url;
+        });
+
+        $('#short_url').on("click", function () {
+            let url = new URL(window.location.href);
+            $.ajax({
+                url: "/url",
+                type: "post",
+                data: {
+                    url: url.href
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data.success) {
+                        $("#short_url_text").html(data.link)
+                    } else {
+
+                    }
+                },
+                error: function () {
+                }
+            });
+        });
+    </script>
+
 {% endblock %}

@@ -50,3 +50,16 @@ class Users(AbstractBaseUser):
     class Meta:
         managed = False
         db_table = 'users'
+
+
+class ShortUrl(models.Model):
+    path = models.CharField(max_length=255)
+    parameters = models.CharField(max_length=255, blank=True, null=True)
+    expiery_date = models.DateTimeField()
+    created_at = models.DateTimeField()
+    md5 = models.CharField(max_length=255)
+
+    class Meta:
+        managed = False
+        db_table = 'short_url'
+

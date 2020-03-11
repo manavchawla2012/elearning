@@ -27,6 +27,8 @@ urlpatterns = [
                   path('oauth', include('social_django.urls', namespace='social')),
                   path('login', views.login),
                   path('signup', views.signup),
+                  path('url/<str:md5>', views.url_short),
+                  path('url', views.url_short)
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'User.views.handle404'

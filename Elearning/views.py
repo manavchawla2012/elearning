@@ -1,9 +1,15 @@
+import os
+
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.contrib.auth import authenticate, login as auth_login
 from Forms.sign_up import CreateUser
-from User.models import Users
+from User.models import Users, ShortUrl
+from django.http import JsonResponse
+from urllib.parse import urlparse
+import hashlib, pytz
+from datetime import datetime, timedelta
 
 
 def home_page(request):
@@ -15,6 +21,31 @@ def logout(request):
         auth.logout(request)
 
     return redirect("/")
+
+
+@csrf_exempt
+def url_short(request, md5=None):
+    if request.method == "POST":
+        url = urlparse(request.POST["url"])
+        path = url.path + url.query
+        current_time = datetime.now(pytz.timezone("Asia/Kolkata"))
+        expiry_time = current_time + timedelta(seconds=20)
+        path_md5 = hashlib.md5(path.encode("utf-8")).hexdigest()
+        insert_short_url = ShortUrl.objects.model(parameters=url.query, path=url.path, md5=path_md5, expiery_date=expiry_time,
+                                                  created_at=current_time)
+        insert_short_url.save()
+        return JsonResponse({"success": True, "link": os.path.join(url.scheme + "://" + url.netloc, "url", path_md5)})
+    elif request.method == "GET":
+        get_url_data = ShortUrl.objects.filter(md5=md5).order_by('-created_at').first()
+        current_date = datetime.now(pytz.timezone("Asia/Kolkata"))
+        expiry_date = get_url_data.expiery_date
+        if expiry_date > current_date:
+            path = get_url_data.path
+            parameters = get_url_data.parameters
+            url = path + "?" + parameters
+            return redirect(url)
+        else:
+            return JsonResponse({"success": False, "msg": "url expired"})
 
 
 @csrf_protect
@@ -65,5 +96,3 @@ def signup(request):
             return redirect("/login", messages.success(request, "Successfully Signed Up"))
         else:
             return render(request, 'user/sign_up.html', {"user_form": check_form})
-
-
