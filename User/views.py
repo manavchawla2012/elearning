@@ -19,7 +19,7 @@ def logout(request):
 
 def device(request, device_id):
     if request.method == "GET":
-        return render(request, "")
+        return render(request, "Errors/404.html")
 
 
 def handle404(request, exception):

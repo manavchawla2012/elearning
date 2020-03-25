@@ -1,0 +1,53 @@
+{% extends 'Layout/application.html' %}
+{% load static %}
+{% load application_tag %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/product.css' %}">
+    <link rel="stylesheet" href="{% static 'css/rating.css' %}">
+{% endblock %}
+{% block content %}
+    {% for product in products %}
+        <div class="col-md-2 tooltip product" style="cursor: pointer;" data-id="{{ product.id }}">
+            <div class="tooltiptext">Click to Add to Cart</div>
+            <img src="https://atlantisthemes.com/wp-content/uploads/2016/09/Atlantis-Featured-Image.png" width="100%"
+                 height="300px">
+            <div style="font-size: 20px">{{ product.name }}</div>
+            <div style="font-size: 25px; font-weight: bold"> ₹{{ product.price }} <strike
+                    style="font-weight: lighter; font-size: 18px">{% get_cross_price product.price %}</strike></div>
+            {% if product.offer %}
+                <div>{{ product.offer.name }} (Buy {{ product.offer.min_buy }} get {{ product.offer.free_items }}
+                    Free)
+                </div>
+            {% else %}
+            <div>No Offers</div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}
+{% block javascript %}
+    <script type="text/javascript">
+        $(".product").on("click", function () {
+            let product_id = $(this).data("id");
+            $.ajax({
+                url: "/cart/add",
+                method: "post",
+                data: {
+                    "productId": product_id
+                },
+                success:function (data) {
+                    if (data.success) {
+                        alert("Product Added to Cart")
+                    }
+                    else {
+                        window.open(data.redirect)
+                    }
+                },
+                error: function (data) {
+                    alert("error");
+                }
+            })
+
+
+        });
+    </script>
+{% endblock %}

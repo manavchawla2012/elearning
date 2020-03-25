@@ -12,6 +12,10 @@ social-auth-app-django = "*"
 python-social-auth = "*"
 django-phonenumber-field = "*"
 phonenumbers = "*"
+django-compressor = "*"
+django-compressor-toolkit = "*"
+install = "*"
+django-node-assets = "*"
 
 [requires]
 python_version = "3.7"

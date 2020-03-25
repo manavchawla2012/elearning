@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login as auth_login
 from User.models import Users
-from django.contrib import messages, auth
+from django.contrib import messages
 
 
 # Create your views here.

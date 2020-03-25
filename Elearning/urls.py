@@ -18,6 +18,7 @@ from . import settings
 from django.conf.urls.static import static
 from django.conf.urls import handler404
 from . import views
+a = {}
 
 urlpatterns = [
                   path('user/', include("User.urls")),
@@ -28,7 +29,9 @@ urlpatterns = [
                   path('login', views.login),
                   path('signup', views.signup),
                   path('url/<str:md5>', views.url_short),
-                  path('url', views.url_short)
+                  path('url', views.url_short),
+                  path('product/', include('products.urls')),
+                  path('cart/', include('cart.urls'))
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'User.views.handle404'

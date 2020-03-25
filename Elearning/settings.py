@@ -29,7 +29,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -38,7 +37,9 @@ INSTALLED_APPS = [
     'User',
     'User.templatetags',
     'social_django',
-    'Tutor'
+    'Tutor',
+    'products',
+    'cart'
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'User.Middleware.login_middleware.Login',
     'social_django.middleware.SocialAuthExceptionMiddleware',
+    'User.Middleware.tutorMiddleware.CheckValidTutor'
 ]
 
 ROOT_URLCONF = 'Elearning.urls'
@@ -145,16 +147,23 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'Media')
 AUTH_USER_MODEL = 'User.Users'
 
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = (
+LOGIN_URL = "/login"
+LOGIN_EXEMPT_TAGS = (
     'user',
-    'tutor'
+    'tutor',
+    'product'
 )
+
 LOGIN_EXEMPT_URLS = (
     r'^/logout/$',
     r'^/signup/$',
     r'^/login/$',
-    r'^tutor/login$'
+    r'^tutor/login$',
 )
+
+TUTOR_APPS_REST = {
+    'product',
+}
 
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 

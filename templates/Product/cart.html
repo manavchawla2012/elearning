@@ -1,0 +1,60 @@
+{% extends 'Layout/application.html' %}
+{% load static %}
+{% load application_tag %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock %}
+{% block content %}
+    {% if user %}
+        {% if cart %}
+            <div class="col-md-8">
+                <div class="cart-heading">My Cart</div>
+                {% for item in cart %}
+                    <div class="item">
+                        <div class="col-md-6" style="height: 100%; padding: 10px">
+                            <img src="https://atlantisthemes.com/wp-content/uploads/2016/09/Atlantis-Featured-Image.png"
+                                 width="60%" height="100%">
+                        </div>
+                        <div class="col-md-6" style="height: 100%; padding: 40px">
+                            <div><span>Name:</span> {{ item.product.name }}</div>
+                            <div><span>Quantity:</span> {{ item.quantity }}</div>
+                            <div><span>Price:</span> {{ item.product.price }}</div>
+                            <hr>
+                            <div><span>Total Price:</span> {% calculate_price item.product.price item.quantity %}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-4" style="height: 400px;">
+                <div style="border: 1px solid black; height: 90%; position: relative">
+                    <div><span class="price-text bill-text">Price:</span> <span class="price-value bill-text">{% currency price %}</span></div>
+                    <div class="clearfix"></div>
+                    <div><span class="price-text bill-text">Discount:</span> <span class="price-value bill-text">-{% currency discount %}</span>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="bottom-div"></div>
+                    <div style="position: absolute; bottom: 50px; width: 100%">
+                        <span style="position: absolute; left: 0; padding-left: 10px" class="bill-text">Final Price:</span>
+                        <span style="position: absolute; right: 0; padding-right: 10px" class="bill-text">{% currency final_price  %}</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div style="height: 10%; text-align: center; margin-top: 10px">
+                    <div class="btn btn-success">Checkout</div>
+                </div>
+            </div>
+        {% else %}
+            <div class="invalid-user">
+                <h2>It Seems your Cart is Empty</h2>
+                <h4><a href="/">Click Here to Add Items</a></h4>
+                <img src="https://cdn.dribbble.com/users/204955/screenshots/4930541/emptycart.png">
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="invalid-user">
+            <h2>Please Log In</h2>
+            <h4>Login to View Items in Cart</h4>
+            <img src="https://cdn.dribbble.com/users/204955/screenshots/4930541/emptycart.png">
+        </div>
+    {% endif %}
+{% endblock %}

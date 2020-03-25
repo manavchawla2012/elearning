@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     {% block css %} {% endblock %}
     {% load static %}
     {% load application_tag %}
@@ -28,6 +29,7 @@
                 {% if not request.user.is_authenticated %}
                     {% if not request.path == "/tutor/login" %}
                         <ul class="nav navbar-nav navbar-right">
+                            <li class=""><a href="/cart/view"><span class="fa fa-shopping-cart"></span></a></li>
                             <li style="cursor: pointer"><a href="/signup"><span
                                     class="glyphicon glyphicon-user"></span>Sign Up</a></li>
                             <li class=""><a href="/login" class=""><span class="glyphicon glyphicon-log-in"></span>
@@ -39,14 +41,17 @@
                 {% else %}
                     <ul class="nav navbar-nav navbar-right">
                         <li style="cursor: pointer"><a><span class=""></span>My Courses</a></li>
-                        <li style="cursor: pointer"><a><span class="glyphicon glyphicon-bell"></span></a></li>
+                        <li class=""><a href="/cart/view"><span class="fa fa-shopping-cart"></span></a></li>
                         <li style="cursor: pointer" class="dropdown">
                             <span class="user-name">
                                 <a class="dropdown-toggle " data-toggle="dropdown">
                                     {% get_name request.user %}
                                     <ul class="dropdown-menu">
                                         <li class="dropdown-head"><a>Welcome {% get_full_name request.user %}</a></li>
-                                        <li><a>Link1</a></li>
+                                        {% if request.user.role.id == 2 %}
+                                            <li><a href="/product/new">Add Product</a></li>
+                                            <li><a href="/product/offer/new">Create Offer</a></li>
+                                        {% endif %}
                                         <li><a>Link1</a></li>
                                         <li><a>Link1</a></li>
                                         <li><a>Link1</a></li>
@@ -68,7 +73,7 @@
     <div>
 
     </div>
-    <div class="main-content">
+    <div class="main-content" style="height: 1000px; overflow: auto">
         {% block content %} {% endblock %}
     </div>
 

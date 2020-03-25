@@ -19,7 +19,7 @@ Here we are creating a elearing website.
 * 1.1) Login page for Tutor
 * 1.2) Signup page for User
 * 1.3) Url Shortner
-
+* 1.4) Cart Addition and Discount Calculation
 ## Url Shortner
 * Create a url with uri by clicking Filters
 * Click button ``Get Short Url``
@@ -34,3 +34,31 @@ Here we are creating a elearing website.
 * Converting string of `path + parameters` to md5 and storing in database and setting up expiry time
 * And creating a link like ``/url/MD5`` for the user to share with customers
 * When customer access the link he gets redirected to the actual url which is recreated via backend.
+
+## Product Discount
+* Using Tutor Login to add new Product to list with offer
+* User can add products to Cart and discount will be calculated based of offer
+* Logic for Price calculation is on cart/views.py file
+* Buy x get y type of offers handled
+
+***
+### Method for Product Discount
+* Differentiation of products on based of offers
+* Creating an array in ascending order.
+* Remove X products from end of array and calculate them as Price
+* Remove Y products from start of array and calculate them as discount
+* Price - Discount = Final Price
+* Discount can be applied N number of times depends of Products of particular offer added
+
+***
+##Credentials
+* Tutor: 
+    * username: tutor
+    * password: tutor
+* Customer: 
+    * username: customer
+    * password: customer
+
+## If Queries Contact
+* EMail:  `manavchawla2012@gmail.com`
+* Linkdin: `https://www.linkedin.com/in/manav-chawla-9b1147120/`

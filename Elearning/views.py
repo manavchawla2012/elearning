@@ -10,10 +10,13 @@ from django.http import JsonResponse
 from urllib.parse import urlparse
 import hashlib, pytz
 from datetime import datetime, timedelta
+from products.models import Offers, Products
 
 
 def home_page(request):
-    return render(request, "Home/home.html")
+    if request.method == "GET":
+        all_products = Products.objects.all()
+        return render(request, "Product/view.html", {"products": all_products}) 
 
 
 def logout(request):
@@ -59,6 +62,7 @@ def login(request):
             if user_is_valid:
                 auth_login(request, user_is_valid)
                 request.user = user_is_valid
+                request.session.set_expiry(1000)
                 if user_is_valid.role == 2:
                     return redirect("/tutor/home")
                 else:
