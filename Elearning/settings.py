@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'social_django',
     'Tutor',
     'products',
-    'cart'
+    'cart',
+    'api'
 ]
 
 MIDDLEWARE = [
@@ -124,7 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -173,3 +174,4 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'bPcvd5WDIjck4qlfBxgsb_x2'
 GOOGLE_LOGIN_URL = '/auth/login/google-oauth2/'
 LOGOUT_REDIRECT_URL = '/'
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

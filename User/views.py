@@ -1,17 +1,13 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages, auth
-from django.views.decorators.cache import cache_page
-from django.views.decorators.csrf import csrf_protect
-
+from datetime import datetime
+from User.models import ActivityPeriod
 
 # Create your views here.
 
 
 def logout(request):
     if request.user.is_active:
-        auth.logout(request)
         return redirect("/user/login", messages.success(request, "Successfully Logged Out"))
     else:
         return redirect("/user/login")

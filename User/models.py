@@ -4,6 +4,7 @@ from django.contrib.auth.models import (
 )
 from datetime import datetime
 import hashlib
+from django.contrib.sessions.models import Session
 
 
 # Create your models here.
@@ -25,17 +26,15 @@ class Roles(models.Model):
     updated_at = models.DateTimeField()
 
     class Meta:
-        managed = False
         db_table = 'roles'
 
 
 class Users(AbstractBaseUser):
     #REQUIRED_FIELDS = ('username', 'first_name', 'last_name', 'email', 'password')
-
-    username = models.CharField(unique=True, max_length=100)
+    username = models.CharField(unique=True, max_length=100, null=False)
     password = models.CharField(max_length=50)
     first_name = models.CharField(max_length=40)
-    gender = models.CharField(blank=True, null=True, max_length=10)
+    gender = models.CharField(null=True, max_length=10)
     phone = models.BigIntegerField(blank=True, null=True)
     email = models.CharField(max_length=40, blank=True, null=True)
     state = models.CharField(max_length=30, blank=True, null=True)
@@ -44,11 +43,11 @@ class Users(AbstractBaseUser):
     updated_at = models.DateTimeField(blank=True, null=True)
     last_name = models.CharField(max_length=40)
     role = models.ForeignKey(Roles, models.DO_NOTHING)
+    api_key = models.CharField(max_length=64, null=True)
     objects = UserManager()
     USERNAME_FIELD = 'username'
 
     class Meta:
-        managed = False
         db_table = 'users'
 
 
@@ -60,6 +59,17 @@ class ShortUrl(models.Model):
     md5 = models.CharField(max_length=255)
 
     class Meta:
-        managed = False
         db_table = 'short_url'
+
+
+class ActivityPeriod(models.Model):
+    user = models.ForeignKey(Users, on_delete=models.DO_NOTHING)
+    log_in_time = models.DateTimeField(auto_now_add=True, null=False)
+    expire_time = models.DateTimeField(null=True)
+    session = models.ForeignKey(Session, on_delete=models.DO_NOTHING)
+
+    class Meta:
+        db_table = "user_activity_period"
+        unique_together = ('user', 'session')
+
 

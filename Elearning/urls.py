@@ -31,7 +31,8 @@ urlpatterns = [
                   path('url/<str:md5>', views.url_short),
                   path('url', views.url_short),
                   path('product/', include('products.urls')),
-                  path('cart/', include('cart.urls'))
+                  path('cart/', include('cart.urls')),
+                  path('api/', include('api.urls'))
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'User.views.handle404'

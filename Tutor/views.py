@@ -33,7 +33,6 @@ def home(request):
     return render(request, "Tutor/home.html")
 
 
-
 def _verify_user_tutor(username):
     if '@' in username:
         kwargs = {'email': username}

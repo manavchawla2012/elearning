@@ -1,27 +1,40 @@
+import hashlib
 import os
-
-from django.shortcuts import render, redirect
-from django.contrib import messages, auth
-from django.views.decorators.csrf import csrf_protect, csrf_exempt
-from django.contrib.auth import authenticate, login as auth_login
-from Forms.sign_up import CreateUser
-from User.models import Users, ShortUrl
-from django.http import JsonResponse
-from urllib.parse import urlparse
-import hashlib, pytz
+import pytz
 from datetime import datetime, timedelta
-from products.models import Offers, Products
+from urllib.parse import urlparse
+import secrets
+
+from django.contrib import messages, auth
+from django.contrib.auth import authenticate, login as auth_login
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
+from django.contrib.auth.signals import user_logged_out
+
+from Forms.sign_up import CreateUser
+from User.models import Users, ShortUrl, ActivityPeriod
+from products.models import Products
 
 
 def home_page(request):
     if request.method == "GET":
         all_products = Products.objects.all()
-        return render(request, "Product/view.html", {"products": all_products}) 
+        return render(request, "Product/view.html", {"products": all_products})
 
 
 def logout(request):
     if request.user.is_active:
-        auth.logout(request)
+        session_key = request.session.session_key
+        user = getattr(request, 'user', None)
+        if not getattr(user, 'is_authenticated', True):
+            user = None
+        user_logged_out.send(sender=user.__class__, request=request, user=user)
+        ActivityPeriod.objects.filter(session_id=session_key).update(expire_time=datetime.now())
+    request.session.set_expiry(-1)
+    if hasattr(request, 'user'):
+        from django.contrib.auth.models import AnonymousUser
+        request.user = AnonymousUser()
 
     return redirect("/")
 
@@ -34,7 +47,8 @@ def url_short(request, md5=None):
         current_time = datetime.now(pytz.timezone("Asia/Kolkata"))
         expiry_time = current_time + timedelta(seconds=20)
         path_md5 = hashlib.md5(path.encode("utf-8")).hexdigest()
-        insert_short_url = ShortUrl.objects.model(parameters=url.query, path=url.path, md5=path_md5, expiery_date=expiry_time,
+        insert_short_url = ShortUrl.objects.model(parameters=url.query, path=url.path, md5=path_md5,
+                                                  expiery_date=expiry_time,
                                                   created_at=current_time)
         insert_short_url.save()
         return JsonResponse({"success": True, "link": os.path.join(url.scheme + "://" + url.netloc, "url", path_md5)})
@@ -61,8 +75,22 @@ def login(request):
             user_is_valid = authenticate(request, username=username, password=password)
             if user_is_valid:
                 auth_login(request, user_is_valid)
-                request.user = user_is_valid
                 request.session.set_expiry(1000)
+                if not user_is_valid.api_key:
+                    api_key = secrets.token_hex(32)
+                    Users.objects.filter(pk=user_is_valid.pk).update(api_key=api_key)
+
+                try:
+                    current_time = datetime.now()
+                    user_id = user_is_valid.id
+                    session_id = request.session.session_key
+                    add_user_activity = ActivityPeriod(user_id=user_id, session_id=session_id,
+                                                       log_in_time=current_time,
+                                                       expire_time=None)
+                    add_user_activity.save()
+                except Exception as e:
+                    print(e)
+                request.user = user_is_valid
                 if user_is_valid.role == 2:
                     return redirect("/tutor/home")
                 else:
