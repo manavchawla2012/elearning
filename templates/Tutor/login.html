@@ -13,7 +13,7 @@
         <div class="head-content">
             <div class="heading">Sign in to your account</div>
 
-            <form href="/tutor/login" method="post">
+            <form action="/login" method="post">
                 {% csrf_token %}
                 <input type="text" name="username" placeholder="Username" required>
                 <input type="password" name="password" placeholder="Password" required>
